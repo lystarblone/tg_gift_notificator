@@ -15,13 +15,24 @@ dp = Dispatcher()
 router = Router()
 dp.include_router(router)
 
+running = False
+
 @router.message(Command("start"))
 async def start(message: types.Message):
     """Обработчик команды /start"""
-    global CHAT_ID
+    global CHAT_ID, running
     CHAT_ID = message.chat.id
-    await message.answer("Бот запущен! Готов к работе.")
+    running = True
+    await message.answer("Бот запущен! Вы будете получать уведомления о новых подарках.")
     logger.info(f"Зарегистрирован CHAT_ID: {CHAT_ID}")
+
+@router.message(Command("stop"))
+async def stop(message: types.Message):
+    """Обработчик команды /stop"""
+    global running
+    running = False
+    await message.answer("Уведомления остановлены. Используйте /start для возобновления.")
+    logger.info("Уведомления остановлены пользователем")
 
 async def main():
     """Запуск бота"""

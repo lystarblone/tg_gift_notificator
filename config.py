@@ -5,3 +5,4 @@ load_dotenv()
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = None
+CHECK_INTERVAL = 20
